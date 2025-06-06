@@ -4,6 +4,7 @@ import entidades.Documento;
 
 public class Nodo {
 
+    public final String dato = null;
     Documento documento;
     public Nodo izquierda;
     public Nodo derecha;

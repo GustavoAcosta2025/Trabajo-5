@@ -101,6 +101,26 @@ public class Arbol {
         tbl.setModel(dtm);
     }
 
+   // Método público para buscar por nombre completo
+private Documento buscarRecursivo(Nodo nodo, String nombreBuscado) {
+    if (nodo == null) {
+        return null;
+    }
+
+    String nombreNodo = (nodo.getDocumento().getNombreCompleto()).trim().toLowerCase();
+
+    // Búsqueda parcial (insensible a mayúsculas/minúsculas)
+    if (nombreNodo.contains(nombreBuscado.toLowerCase())) {
+        return nodo.getDocumento();
+    }
+
+    // Buscar recursivamente en ambos lados
+    Documento izquierda = buscarRecursivo(nodo.izquierda, nombreBuscado);
+    if (izquierda != null) return izquierda;
+
+    return buscarRecursivo(nodo.derecha, nombreBuscado);
+}
+
 
     private int llenarDatos(Nodo nodo, String[][] datos, int fila) {
         if (nodo != null) {
@@ -116,38 +136,5 @@ public class Arbol {
         }
         return fila;
     }
-
-    //metodo
-    public Documento buscarPorNombreCompleto(String nombre) {
-    if (raiz == null) {
-        return null;
-    }
-
-    // Limpiar y normalizar el nombre buscado
-    String nombreBuscado = nombre.trim().toUpperCase().replaceAll("\\s+", " ");
-    return buscarRecursivo(raiz, nombreBuscado);
-}
-
-private Documento buscarRecursivo(Nodo nodo, String nombreBuscado) {
-    if (nodo == null) {
-        return null;
-    }
-
-    // Armar el nombre completo del nodo
-    String nombreNodo = (nodo.apellido1 + " " + nodo.apellido2 + " " + nodo.nombre + " " + nodo.documento)
-                            .trim().toUpperCase().replaceAll("\\s+", " ");
-
-    int comparacion = nombreBuscado.compareTo(nombreNodo);
-
-    if (comparacion == 0) {
-        // Coincidencia exacta
-        return new Documento(nodo.apellido1, nodo.apellido2, nodo.nombre, nodo.documento);
-    } else if (comparacion < 0) {
-        return buscarRecursivo(nodo.izquierda, nombreBuscado);
-    } else {
-        return buscarRecursivo(nodo.derecha, nombreBuscado);
-    }
-}
-
 
 }

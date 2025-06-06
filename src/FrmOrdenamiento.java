@@ -152,12 +152,17 @@ public class FrmOrdenamiento extends JFrame {
     txtTiempo.setText(Util.getTextoTiempoCronometro());
 
     if (resultado != null) {
-        // Mostrar en la tabla solo el resultado encontrado
+        // Mostrar todos los campos del Documento encontrado
         Object[][] fila = {
-            { resultado.getNombreCompleto(), resultado.getTipoDocumento() }
+            {
+                resultado.getApellido1(),
+                resultado.getApellido2(),
+                resultado.getNombre(),
+                resultado.getDocumento()
+            }
         };
 
-        String[] columnas = { "Nombre Completo", "Tipo Documento" };
+        String[] columnas = { "Apellido 1", "Apellido 2", "Nombre", "Documento" };
         tblDocumentos.setModel(new javax.swing.table.DefaultTableModel(fila, columnas));
     } else {
         JOptionPane.showMessageDialog(this, "No se encontró un documento con ese nombre.");
