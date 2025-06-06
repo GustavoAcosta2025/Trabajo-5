@@ -4,7 +4,7 @@ import entidades.Documento;
 
 public class Nodo {
 
-    private Documento documento;
+    Documento documento;
     public Nodo izquierda;
     public Nodo derecha;
 

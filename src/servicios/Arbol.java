@@ -1,11 +1,9 @@
 package servicios;
 
+import entidades.Documento;
 import java.io.BufferedReader;
-
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
-
-import entidades.Documento;
 
 public class Arbol {
     private Nodo raiz;
@@ -103,6 +101,7 @@ public class Arbol {
         tbl.setModel(dtm);
     }
 
+
     private int llenarDatos(Nodo nodo, String[][] datos, int fila) {
         if (nodo != null) {
             fila = llenarDatos(nodo.izquierda, datos, fila);
@@ -117,5 +116,38 @@ public class Arbol {
         }
         return fila;
     }
+
+    //metodo
+    public Documento buscarPorNombreCompleto(String nombre) {
+    if (raiz == null) {
+        return null;
+    }
+
+    // Limpiar y normalizar el nombre buscado
+    String nombreBuscado = nombre.trim().toUpperCase().replaceAll("\\s+", " ");
+    return buscarRecursivo(raiz, nombreBuscado);
+}
+
+private Documento buscarRecursivo(Nodo nodo, String nombreBuscado) {
+    if (nodo == null) {
+        return null;
+    }
+
+    // Armar el nombre completo del nodo
+    String nombreNodo = (nodo.apellido1 + " " + nodo.apellido2 + " " + nodo.nombre + " " + nodo.documento)
+                            .trim().toUpperCase().replaceAll("\\s+", " ");
+
+    int comparacion = nombreBuscado.compareTo(nombreNodo);
+
+    if (comparacion == 0) {
+        // Coincidencia exacta
+        return new Documento(nodo.apellido1, nodo.apellido2, nodo.nombre, nodo.documento);
+    } else if (comparacion < 0) {
+        return buscarRecursivo(nodo.izquierda, nombreBuscado);
+    } else {
+        return buscarRecursivo(nodo.derecha, nombreBuscado);
+    }
+}
+
 
 }

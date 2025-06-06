@@ -44,4 +44,9 @@ public class Documento {
                 nombre.equals(documento.getNombre());
     }
 
+    public String getTipoDocumento() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getTipoDocumento'");
+    }
+
 }

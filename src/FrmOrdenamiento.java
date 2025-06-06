@@ -10,6 +10,7 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.WindowConstants;
 
+import entidades.Documento;
 import servicios.Arbol;
 import servicios.ServicioDocumento;
 import servicios.Util;
@@ -20,6 +21,7 @@ import java.awt.event.ActionListener;
 
 public class FrmOrdenamiento extends JFrame {
 
+    private Arbol arbol; // variable
     private JButton btnOrdenarBurbuja;
     private JButton btnOrdenarRapido;
     private JButton btnOrdenarInsercion;
@@ -33,6 +35,7 @@ public class FrmOrdenamiento extends JFrame {
 
     public FrmOrdenamiento() {
 
+        arbol = new Arbol(); // agregado
         tbOrdenamiento = new JToolBar();
         btnOrdenarBurbuja = new JButton();
         btnOrdenarInsercion = new JButton();
@@ -137,6 +140,29 @@ public class FrmOrdenamiento extends JFrame {
     }
 
     private void btnBuscar(ActionEvent evt) {
+    String nombreBuscado = txtBuscar.getText().trim();
+
+    if (nombreBuscado.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Por favor ingrese un nombre para buscar.");
+        return;
+    }
+
+    Util.iniciarCronometro();
+    Documento resultado = arbol.buscarPorNombreCompleto(nombreBuscado);
+    txtTiempo.setText(Util.getTextoTiempoCronometro());
+
+    if (resultado != null) {
+        // Mostrar en la tabla solo el resultado encontrado
+        Object[][] fila = {
+            { resultado.getNombreCompleto(), resultado.getTipoDocumento() }
+        };
+
+        String[] columnas = { "Nombre Completo", "Tipo Documento" };
+        tblDocumentos.setModel(new javax.swing.table.DefaultTableModel(fila, columnas));
+    } else {
+        JOptionPane.showMessageDialog(this, "No se encontró un documento con ese nombre.");
+    }
+
 
     }
 
