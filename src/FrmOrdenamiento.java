@@ -40,7 +40,7 @@ public class FrmOrdenamiento extends JFrame {
         btnOrdenarBurbuja = new JButton();
         btnOrdenarInsercion = new JButton();
         btnOrdenarRapido = new JButton();
-        cmbCriterio = new JComboBox();
+        cmbCriterio = new JComboBox<String>();
         txtTiempo = new JTextField();
 
         btnBuscar = new JButton();
@@ -78,9 +78,10 @@ public class FrmOrdenamiento extends JFrame {
             }
         });
         tbOrdenamiento.add(btnOrdenarInsercion);
-
-        cmbCriterio.setModel(new DefaultComboBoxModel(
-                new String[] { "Nombre Completo, Tipo de Documento", "Tipo de Documento, Nombre Completo" }));
+        cmbCriterio.setModel(new DefaultComboBoxModel<>(new String[] {
+            "Nombre Completo, Tipo de Documento",
+            "Tipo de Documento, Nombre Completo"
+        }));
         tbOrdenamiento.add(cmbCriterio);
         tbOrdenamiento.add(txtTiempo);
 
@@ -105,7 +106,7 @@ public class FrmOrdenamiento extends JFrame {
         //ServicioDocumento.desdeArchivo(nombreArchivo);
         //ServicioDocumento.mostrar(tblDocumentos);
 
-        Arbol arbol = new Arbol();
+        arbol = new Arbol();
         arbol.desdeArchivo(nombreArchivo);
         //arbol.recorrerInOrden();
         arbol.mostrar(tblDocumentos);

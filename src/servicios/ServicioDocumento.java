@@ -1,19 +1,17 @@
 package servicios;
 
+import entidades.Documento;
 import java.io.BufferedReader;
 import java.text.Collator;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
-import entidades.Documento;
-
 public class ServicioDocumento {
     
-    private static List<Documento> documentos = new ArrayList();
+    private static List<Documento> documentos = new ArrayList<>();
     private static String[] encabezados;
 
 
@@ -154,7 +152,7 @@ public class ServicioDocumento {
 
     public static Arbol getArbol(){
         Arbol arbol=new Arbol();
-        for(var documento:documentos){
+        for(Documento documento:documentos){
             arbol.agregar(new Nodo(documento));
         }
         return arbol;
@@ -166,4 +164,19 @@ public class ServicioDocumento {
         ServicioDocumento.documentos = documentos;
     }
 
+
+    public static boolean esIgual(Documento d1, Documento d2, int criterio) {
+    switch (criterio) {
+        case 0:
+            return d1.getApellido1().equalsIgnoreCase(d2.getApellido1());
+        case 1:
+            return d1.getApellido2().equalsIgnoreCase(d2.getApellido2());
+        case 2:
+            return d1.getNombre().equalsIgnoreCase(d2.getNombre());
+        case 3:
+            return d1.getDocumento().equalsIgnoreCase(d2.getDocumento());
+        default:
+            return false;
+    }   
+    }
 }

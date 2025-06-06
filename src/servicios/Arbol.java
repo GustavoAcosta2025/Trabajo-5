@@ -101,27 +101,6 @@ public class Arbol {
         tbl.setModel(dtm);
     }
 
-   // Método público para buscar por nombre completo
-private Documento buscarRecursivo(Nodo nodo, String nombreBuscado) {
-    if (nodo == null) {
-        return null;
-    }
-
-    String nombreNodo = (nodo.getDocumento().getNombreCompleto()).trim().toLowerCase();
-
-    // Búsqueda parcial (insensible a mayúsculas/minúsculas)
-    if (nombreNodo.contains(nombreBuscado.toLowerCase())) {
-        return nodo.getDocumento();
-    }
-
-    // Buscar recursivamente en ambos lados
-    Documento izquierda = buscarRecursivo(nodo.izquierda, nombreBuscado);
-    if (izquierda != null) return izquierda;
-
-    return buscarRecursivo(nodo.derecha, nombreBuscado);
-}
-
-
     private int llenarDatos(Nodo nodo, String[][] datos, int fila) {
         if (nodo != null) {
             fila = llenarDatos(nodo.izquierda, datos, fila);
@@ -135,6 +114,53 @@ private Documento buscarRecursivo(Nodo nodo, String nombreBuscado) {
             fila = llenarDatos(nodo.derecha, datos, fila);
         }
         return fila;
+    }
+
+    public Documento buscarBinario(String valorBuscado) {
+        return buscarBinario(raiz, valorBuscado);
+    }
+
+    private Documento buscarBinario(Nodo nodo, String valorBuscado) {
+        if (nodo == null) {
+            return null;
+        }
+
+        Documento docActual = nodo.getDocumento();
+        Documento docBuscado = new Documento("", "", "", valorBuscado); // Usado para comparar según criterio
+
+        if (ServicioDocumento.esIgual(docActual, docBuscado, criterio)) {
+            return docActual;
+        } else if (ServicioDocumento.esMayor(docBuscado, docActual, criterio)) {
+            return buscarBinario(nodo.derecha, valorBuscado);
+        } else {
+            return buscarBinario(nodo.izquierda, valorBuscado);
+        }
+    }
+
+
+
+    public Documento buscarPorNombreCompleto(String nombreCompleto) {
+    return buscarPorNombreCompleto(raiz, nombreCompleto.trim().toLowerCase());
+}
+
+private Documento buscarPorNombreCompleto(Nodo nodo, String nombreCompleto) {
+    if (nodo == null) {
+        return null;
+    }
+
+    Documento doc = nodo.getDocumento();
+    String nombreNodo = doc.getNombreCompleto().trim().toLowerCase();
+
+    if (nombreNodo.equals(nombreCompleto)) {
+        return doc;
+    }
+
+    Documento encontrado = buscarPorNombreCompleto(nodo.izquierda, nombreCompleto);
+    if (encontrado == null) {
+        encontrado = buscarPorNombreCompleto(nodo.derecha, nombreCompleto);
+    }
+
+    return encontrado;
     }
 
 }
